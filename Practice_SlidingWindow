@@ -146,12 +146,45 @@ def fruits_into_baskets(fruits, max_fruit_types):
     return max_length
 
 def main():
-    print("Maximum number of fruits: " + str(fruits_into_baskets(['A', 'B', 'C', 'A', 'C'])))
-    print("Maximum number of fruits: " + str(fruits_into_baskets(['A', 'B', 'C', 'B', 'B', 'C'])))
+    print("Maximum number of fruits: " + str(fruits_into_baskets(['A', 'B', 'C', 'A', 'C'], 2)))
+    print("Maximum number of fruits: " + str(fruits_into_baskets(['A', 'B', 'C', 'B', 'B', 'C'], 2)))
 
 main()
 
 # Time Complexity = O(N)
 # Space Complexity = O(1)
 
+
+######################################################################################
+
+# LONGEST SUBSTRING WITH DISTINCT CHARACTERS
+def non_repeat_substring(str1):
+    windowStart = 0 
+    max_length = 0 
+    char_map = {}
+
+    # Extend range of substring
+    for windowEnd in range(len(str1)):
+        right_char = str1[windowEnd]
+        # if the map already contains 'right_char', then shrink the window from the start
+        if right_char in char_map:
+            windowStart = max(windowStart, char_map[right_char] + 1)
+        # if the map doesn't contain 'right_char, then add it to the char_map
+        char_map[right_char] = windowEnd
+        # Keep track of the maximum length
+        max_length = max(max_length, windowEnd - windowStart + 1)
+
+    return max_length
+
+def main():
+    print("Length of the longest substring: " + str(non_repeat_substring("aabccbb")))
+    print("Length of the longest substring: " + str(non_repeat_substring("abbbb")))
+    print("Length of the longest substring: " + str(non_repeat_substring("abccde")))
+
+main()
+
+# Time Complexity = O(N)
+# Space Complexity = O(K)
+
+######################################################################################
 
