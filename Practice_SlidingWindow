@@ -46,3 +46,112 @@ def main():
     print("Maximum sum of a subarray of size K: " + str(max_sub_array_of_size_k(2, [2, 3, 4, 1, 5])))
 
 main()
+
+# Time Complexity = O(N)
+# Space Complexity = O(1)
+
+
+#######################################################################################
+
+# SMALLEST SUBARRAY WITH A GREATER SUM
+
+def smallest_subarray_sum(s, arr):
+    min_length = len(arr) + 1
+    windowSum = 0
+    windowStart = 0
+
+    for windowEnd in range(0, len(arr)):
+        windowSum += arr[windowEnd]
+        # Continue growing window until we reach a sum greater than or equal to the target "s"
+        while windowSum >= s:
+            min_length = min(min_length, windowEnd - windowStart + 1)
+            windowSum -= arr[windowStart]
+            windowStart += 1
+    
+    if min_length == len(arr) + 1:
+        return 0
+    else:
+        return min_length
+
+def main():
+    print("Smallest subarry length: " + str(smallest_subarray_sum(7, [2, 1, 5, 2, 3, 2])))
+    print("Smallest subarray length: " + str(smallest_subarray_sum(8, [3, 4, 1, 1, 6])))
+    print("Smallest subarray length: " + str(smallest_subarray_sum(8, [2, 2, 1, 1, 1, 1])))
+
+main()
+
+# Time Complexity = O(N)
+# Space Complexity = O(1)
+
+
+#######################################################################################
+
+# LONGEST SUBSTRING WITH MAXIMUM K DISTINCT CHARACTERS
+def longest_substring_with_k_distinct(str1, K):
+    windowStart = 0
+    max_length = 0
+    char_frequency = {}
+
+    # Extend the range of the window until we reach a non-distinct character
+    for windowEnd in range(0, len(str1)):
+        right_char = str1[windowEnd]
+        # Add new elements to the hashmap/update values of elements in hashmap
+        if right_char not in char_frequency:
+            char_frequency[right_char] = 0
+        char_frequency[right_char] += 1
+
+        # If we hit more than K distinct characters, begin shrinking window
+        while len(char_frequency) > K:
+            left_char = str1[windowStart]
+            char_frequency[left_char] -= 1
+            # If char_frequency is zero, remove it from the hashmap
+            if char_frequency[left_char] == 0:
+                del char_frequency[left_char]
+            windowStart += 1
+        max_length = max(max_length, windowEnd - windowStart + 1)
+    return max_length
+
+def main():
+    print("Length of the longest substring: " + str(longest_substring_with_k_distinct("araaci", 2)))
+    print("Length of the longest substring: " + str(longest_substring_with_k_distinct("araaci", 1)))
+    print("Length of the longest substring: " + str(longest_substring_with_k_distinct("cbbebi", 3)))
+
+main()
+
+# Time Complexity = O(N)
+# Space Complexity = O(K)
+
+
+#####################################################################################
+
+# FRUITS INTO BASKETS
+def fruits_into_baskets(fruits, max_fruit_types):
+    windowStart = 0
+    max_length = 0
+    fruit_frequency = {}
+
+    for windowEnd in range(len(fruits)):
+        right_fruit = fruits[windowEnd]
+        if right_fruit not in fruit_frequency:
+            fruit_frequency[right_fruit] = 0
+        fruit_frequency[right_fruit] += 1
+
+        while len(fruit_frequency) > max_fruit_types:
+            left_fruit = fruits[windowStart]
+            fruit_frequency[left_fruit] -= 1
+            if fruit_frequency[left_fruit] == 0:
+                del fruit_frequency[left_fruit]
+            windowStart += 1
+        max_length = max(max_length, windowEnd - windowStart + 1)
+    return max_length
+
+def main():
+    print("Maximum number of fruits: " + str(fruits_into_baskets(['A', 'B', 'C', 'A', 'C'])))
+    print("Maximum number of fruits: " + str(fruits_into_baskets(['A', 'B', 'C', 'B', 'B', 'C'])))
+
+main()
+
+# Time Complexity = O(N)
+# Space Complexity = O(1)
+
+
